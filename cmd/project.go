@@ -1,9 +1,10 @@
 package cmd
 
 import (
-	"mini_ci/templates"
 	"os"
 	"text/template"
+
+	"github.com/liqianbro/mini_ci/templates"
 )
 
 // Project contains name, license and paths to projects.

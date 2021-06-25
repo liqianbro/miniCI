@@ -3,13 +3,14 @@ package cmd
 import (
 	"fmt"
 	"io/ioutil"
-	"mini_ci/templates"
-	"mini_ci/tool"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"strings"
 	"text/template"
+
+	"github.com/liqianbro/mini_ci/templates"
+	"github.com/liqianbro/mini_ci/tool"
 
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
