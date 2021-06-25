@@ -1,6 +1,6 @@
 package main
 
-import "mini_ci/cmd"
+import "github.com/liqianbro/mini_ci/cmd"
 
 func main() {
 	cmd.Execute()
