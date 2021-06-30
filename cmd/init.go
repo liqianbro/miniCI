@@ -13,10 +13,9 @@ import (
 )
 
 var (
-	GenerateType string
 	// 初始化
 	newCmd = &cobra.Command{
-		Use:     "new [name]",
+		Use:     "new [name] [type]",
 		Aliases: []string{"initialize", "initialise", "create"},
 		Short:   "Initialize a Go Application",
 		Long: `Initialize  will create a new application, with a license.
