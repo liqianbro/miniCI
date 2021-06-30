@@ -2,11 +2,7 @@ package cmd
 
 import (
 	"fmt"
-	"io/ioutil"
 	"os"
-	"os/exec"
-	"path/filepath"
-	"strings"
 	"text/template"
 
 	"github.com/liqianbro/miniCI/templates"
@@ -17,6 +13,7 @@ import (
 )
 
 var (
+	GenerateType string
 	// 初始化
 	newCmd = &cobra.Command{
 		Use:     "new [name]",
@@ -50,6 +47,7 @@ func initializeProject(args []string) (string, error) {
 		PkgName:      args[0],
 		Legal:        GetLicense(),
 		Copyright:    CopyrightLine(),
+		GenerateType: args[1],
 	}
 	if err := project.Create(); err != nil {
 		return "", err
@@ -57,57 +55,8 @@ func initializeProject(args []string) (string, error) {
 	return project.AbsolutePath, nil
 }
 
-// generate 生成方法
-func generate(args []string) error {
-	var err error
-	//获取当前文件路径
-	str, _ := os.Getwd()
-	//创建文件夹
-	err = os.Mkdir(args[0], os.ModePerm)
-	if err != nil {
-		return errors.Wrapf(err, "创建目录错误！")
-	}
-	path := str + "/" + args[0]
-	// init go mod
-	err = InitMod(path, args[0])
-	if err != nil {
-		return err
-	}
-	//创建main文件
-	err = CreateFile(path, "/main.go", "package main\n\nfunc main() {\n\tfmt.Println(\"hello,world\")\n}")
-	if err != nil {
-		return err
-	}
-	return err
-}
-
 type Mod struct {
 	PackageName string
-}
-
-// CreateFile 创建文件并写入相应的内容
-func CreateFile(filePath string, fileName string, content string) error {
-	//创建main文件
-	file, err := os.Create(filePath + fileName)
-	defer file.Close()
-	if err != nil {
-		return errors.Errorf("创建文件发生错误：%s", err)
-	}
-	//写入文件
-	_, err = file.WriteString(content)
-	if err != nil {
-		return errors.Errorf("写入文件发生错误：%s", err)
-	}
-	return nil
-}
-
-// ReadTemplate 读取模版文件
-func ReadTemplate(path string) (string, error) {
-	contents, err := ioutil.ReadFile(path)
-	if err != nil {
-		return "", errors.Errorf("读取文件出错:%s", err.Error())
-	}
-	return string(contents), nil
 }
 
 // InitMod 生成go mod 相当于执行 go mod init pakcgeName
@@ -133,12 +82,4 @@ func InitMod(path string, pkgName string) error {
 		return errors.Errorf("模版赋值错误:%s", err)
 	}
 	return nil
-}
-
-func GetPath() string {
-	file, _ := exec.LookPath(os.Args[0])
-	path, _ := filepath.Abs(file)
-	index := strings.LastIndex(path, string(os.PathSeparator))
-	path = path[:index]
-	return path
 }

@@ -23,4 +23,5 @@ func Execute() {
 // 初始化
 func init() {
 	rootCmd.AddCommand(newCmd)
+	newCmd.Flags().StringP("type", "t", "", "选择类型(web或cmd)")
 }

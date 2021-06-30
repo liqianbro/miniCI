@@ -15,6 +15,7 @@ type Project struct {
 	AbsolutePath string
 	Legal        License
 	AppName      string
+	GenerateType string
 }
 
 func (p *Project) Create() error {
@@ -22,17 +23,6 @@ func (p *Project) Create() error {
 	if err := os.Mkdir(p.AbsolutePath, 0754); err != nil {
 		return err
 	}
-	//create controller
-	if err := os.Mkdir(p.AbsolutePath+"/controller", 0754); err != nil {
-		return err
-	}
-	if err := os.Mkdir(p.AbsolutePath+"/router", 0754); err != nil {
-		return err
-	}
-	if err := os.Mkdir(p.AbsolutePath+"/middleware", 0754); err != nil {
-		return err
-	}
-
 	// create main.go
 	mainFile, err := os.Create(p.AbsolutePath + "/main.go")
 	if err != nil {
@@ -45,11 +35,31 @@ func (p *Project) Create() error {
 	if err != nil {
 		return err
 	}
-	// create template
-	mainTemplate := template.Must(template.New("main").Parse(string(templates.WebTemplate())))
-	err = mainTemplate.Execute(mainFile, p)
-	if err != nil {
-		return err
+	// 类型判断
+	if p.GenerateType == "web" {
+		//create controller
+		if err := os.Mkdir(p.AbsolutePath+"/controller", 0754); err != nil {
+			return err
+		}
+		if err := os.Mkdir(p.AbsolutePath+"/router", 0754); err != nil {
+			return err
+		}
+		if err := os.Mkdir(p.AbsolutePath+"/middleware", 0754); err != nil {
+			return err
+		}
+		// create template
+		mainTemplate := template.Must(template.New("main").Parse(string(templates.WebTemplate())))
+		err = mainTemplate.Execute(mainFile, p)
+		if err != nil {
+			return err
+		}
+	} else {
+		// create template
+		mainTemplate := template.Must(template.New("main").Parse(string(templates.MainTemplate())))
+		err = mainTemplate.Execute(mainFile, p)
+		if err != nil {
+			return err
+		}
 	}
 
 	// create license
