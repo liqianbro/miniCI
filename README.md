@@ -1,3 +1,7 @@
-# mini_ci
-minici
-### 简单代码工程目录生成器
+# miniCI
+### Go代码结构工程目录
+
+### Using
+``go get -u github.com/liqianbro/miniCI``
+
+
