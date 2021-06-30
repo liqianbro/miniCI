@@ -4,7 +4,7 @@ import (
 	"os"
 	"text/template"
 
-	"github.com/liqianbro/mini_ci/templates"
+	"github.com/liqianbro/miniCI/templates"
 )
 
 // Project contains name, license and paths to projects.
@@ -46,7 +46,7 @@ func (p *Project) Create() error {
 		return err
 	}
 	// create template
-	mainTemplate := template.Must(template.New("main").Parse(string(templates.MainTemplate())))
+	mainTemplate := template.Must(template.New("main").Parse(string(templates.WebTemplate())))
 	err = mainTemplate.Execute(mainFile, p)
 	if err != nil {
 		return err

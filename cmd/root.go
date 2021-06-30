@@ -8,9 +8,8 @@ import (
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "Qian",
-	Short: "fast mini_ci Go code",
-	Long:  "fast mini_ci Go code-happy",
+	Use:   "miniCI",
+	Short: "miniCI Go generate code",
 }
 
 func Execute() {

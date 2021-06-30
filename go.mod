@@ -1,4 +1,4 @@
-module github.com/liqianbro/mini_ci
+module github.com/liqianbro/miniCI
 
 go 1.16
 

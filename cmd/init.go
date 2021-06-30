@@ -9,8 +9,8 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/liqianbro/mini_ci/templates"
-	"github.com/liqianbro/mini_ci/tool"
+	"github.com/liqianbro/miniCI/templates"
+	"github.com/liqianbro/miniCI/tool"
 
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
@@ -22,10 +22,11 @@ var (
 		Use:     "new [name]",
 		Aliases: []string{"initialize", "initialise", "create"},
 		Short:   "Initialize a Go Application",
-		Long: `Initialize (cobra init) will create a new application, with a license.
+		Long: `Initialize  will create a new application, with a license.
   * If a name is provided, a directory with that name will be created in the current directory;
   * If no name is provided, the current directory will be assumed;
 `,
+		Args: cobra.MinimumNArgs(1),
 		Run: func(_ *cobra.Command, args []string) {
 			_, err := initializeProject(args)
 			tool.CheckErr(err)
